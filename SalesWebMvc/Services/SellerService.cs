@@ -21,8 +21,7 @@ namespace SalesWebMvc.Services
             return _context.Seller.ToList(); // Operação sincrona (aplicação fica bloqueada esperando operação terminar)
         }
         public void Insert(Seller obj)
-        {
-            obj.Department = _context.Department.First();
+        {      
             _context.Add(obj);
             _context.SaveChanges();
         }
