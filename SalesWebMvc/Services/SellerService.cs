@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using SalesWebMvc.Data;
 using SalesWebMvc.Models;
 using Microsoft.EntityFrameworkCore;
+using SalesWebMvc.Services.Exceptions;
 
 namespace SalesWebMvc.Services
 {
@@ -35,6 +36,23 @@ namespace SalesWebMvc.Services
             var obj = _context.Seller.Find(id);
             _context.Seller.Remove(obj);
             _context.SaveChanges();
+        }
+        public void Update(Seller obj)
+        {
+            if (!_context.Seller.Any(x => x.Id == obj.Id))
+            {
+                throw new NotFoundException("Id not found");
+            }
+            try
+            {
+                _context.Update(obj);
+                _context.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException e) // nível de acesso a dados (DB)
+            {
+                throw new DbConcurrencyException(e.Message); // Lança um exceção da camada de serviço, controller conversa com a camada de serviço (exceções do nivel de acesso a daata são
+                //capturadas pelo serviço e relançadas como exceções de serviço ao controlador 
+            }
         }
     }
 }
