@@ -25,7 +25,7 @@ namespace SalesWebMvc.Controllers
             // Controlador envia as datas para as caixinhas do site
             if(!minDate.HasValue)
             {
-                minDate = new DateTime(2018, 1, 1);
+                minDate = new DateTime(2022, 1, 1);
             }
             if (!maxDate.HasValue)
             {
